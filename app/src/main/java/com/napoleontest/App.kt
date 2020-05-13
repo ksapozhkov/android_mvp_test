@@ -45,13 +45,12 @@ class App : Application(), KodeinAware {
                 .build()
         }
         bind<AppDatabase>() with singleton {
-            Room.databaseBuilder(applicationContext, AppDatabase::class.java, "napoleontest_db")
+            Room.databaseBuilder(baseContext, AppDatabase::class.java, "napoleontest_db")
                 .build()
         }
         bind<OfferApi>() with singleton { instance<Retrofit>().create(OfferApi::class.java) }
         bind<BannerApi>() with singleton { instance<Retrofit>().create(BannerApi::class.java) }
         bind<OfferRepository>() with singleton { OfferRepositoryImp(instance()) }
-        bind<BannerRepository>() with singleton { BannerRepositoryImp(instance()) }
         bind<BannerRepository>() with singleton { BannerRepositoryImp(instance()) }
         bind<ApiErrorHandler>() with singleton { ApiErrorHandler() }
         bind<GetOffersUseCase>() with singleton { GetOffersUseCase(instance(), instance()) }

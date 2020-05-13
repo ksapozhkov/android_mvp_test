@@ -87,5 +87,16 @@ dependencies {
     implementation 'org.kodein.di:kodein-di-generic-jvm:6.5.5'
     implementation "org.kodein.di:kodein-di-framework-android-core:6.1.0"
     implementation "org.kodein.di:kodein-di-framework-android-x:6.1.0"
+
+    // Moxy
+    implementation "com.github.moxy-community:moxy:2.1.2"
+    kapt "com.github.moxy-community:moxy-compiler:2.1.2"
+    implementation "com.github.moxy-community:moxy-androidx:2.1.2"
+    implementation "com.github.moxy-community:moxy-androidx:2.1.2"
+
+    // SwipeLayout
+//    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
+
 }
 

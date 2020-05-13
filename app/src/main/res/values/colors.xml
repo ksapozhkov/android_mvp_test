@@ -2,5 +2,13 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#588ae9</color>
+    <color name="red">#ea3223</color>
+    <color name="header_text_color">#646469</color>
+    <color name="header_bg">#efeff4</color>
+    <color name="divider">#cdcdcd</color>
+    <color name="description">#808080</color>
+    <color name="toolbar">#f7f8f8</color>
+    <color name="price">#ee7c78</color>
+    <color name="price_old">#808080</color>
 </resources>
