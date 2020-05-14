@@ -8,7 +8,7 @@ data class Offer(
     @field:PrimaryKey
     val id: String,
     val name: String,
-    val desc: String,
+    val desc: String?,
     val image: String,
     val groupName: String,
     val type: String,

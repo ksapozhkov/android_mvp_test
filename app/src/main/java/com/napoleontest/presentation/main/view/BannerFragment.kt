@@ -13,6 +13,8 @@ import com.napoleontest.util.Util
 
 class BannerFragment : Fragment() {
 
+    private lateinit var mAdapter: ViewPagerAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,14 +24,8 @@ class BannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val banners = ArrayList<Banner>()
-        banners.add(Banner("id1", "Title1", "Desc1", "img1"))
-        banners.add(Banner("id2", "Title2", "Desc2", "img2"))
-        banners.add(Banner("id3", "Title3", "Desc3", "img3"))
-
         val viewPager = view.findViewById<ViewPager>(R.id.viewPager)
-        val vpAdapter = ViewPagerAdapter(banners)
+        mAdapter = ViewPagerAdapter()
         with(viewPager) {
             clipToPadding = false;
             setPadding(
@@ -38,10 +34,13 @@ class BannerFragment : Fragment() {
                 Util.convertDpToPixel(50, context),
                 0
             );
-            adapter = vpAdapter
+            adapter = mAdapter
         }
 
     }
 
+    fun setData(banners: List<Banner>) {
+        mAdapter.mBannerList = banners
+    }
 
 }

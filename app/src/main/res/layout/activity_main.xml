@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -31,7 +32,9 @@
                     android:layout_toLeftOf="@id/iv_info">
 
                     <androidx.appcompat.widget.SearchView
+                        android:focusable="false"
                         android:id="@+id/searchView"
+                        app:iconifiedByDefault="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:queryBackground="@android:color/transparent"

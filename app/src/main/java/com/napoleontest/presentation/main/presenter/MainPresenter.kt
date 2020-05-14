@@ -23,7 +23,7 @@ class MainPresenter : MvpPresenter<MainView>(), KodeinAware {
 
     override fun onFirstViewAttach() {
         getOffers()
-//        getBanners()
+        getBanners()
     }
 
     private fun getOffers() {
@@ -33,7 +33,7 @@ class MainPresenter : MvpPresenter<MainView>(), KodeinAware {
             }
 
             override fun onError(errorModel: com.napoleontest.domain.model.Error?) {
-                TODO("Not yet implemented")
+                println(errorModel?.message)
             }
         })
     }
@@ -45,7 +45,7 @@ class MainPresenter : MvpPresenter<MainView>(), KodeinAware {
             }
 
             override fun onError(errorModel: com.napoleontest.domain.model.Error?) {
-                TODO("Not yet implemented")
+                println(errorModel?.message)
             }
         })
     }

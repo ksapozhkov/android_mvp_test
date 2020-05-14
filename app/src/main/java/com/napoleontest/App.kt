@@ -1,6 +1,8 @@
 package com.napoleontest
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.room.Room
 import com.lifehacktestapp.android.data.db.AppDatabase
 import com.lifehacktestapp.android.data.db.OfferDao
@@ -13,7 +15,6 @@ import com.napoleontest.domain.repository.BannerRepository
 import com.napoleontest.domain.repository.OfferRepository
 import com.napoleontest.domain.usecase.GetBannersUseCase
 import com.napoleontest.domain.usecase.GetOffersUseCase
-import com.napoleontest.presentation.main.presenter.MainPresenter
 import okhttp3.OkHttpClient
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -34,6 +35,12 @@ class App : Application(), KodeinAware {
     companion object {
         lateinit var instance: App
             private set
+
+        fun isNetworkAvailable(): Boolean {
+            val cm = instance
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            return cm.activeNetworkInfo?.isConnected ?: false
+        }
     }
 
     override val kodein = Kodein {
@@ -51,13 +58,12 @@ class App : Application(), KodeinAware {
         }
         bind<OfferApi>() with singleton { instance<Retrofit>().create(OfferApi::class.java) }
         bind<BannerApi>() with singleton { instance<Retrofit>().create(BannerApi::class.java) }
-        bind<OfferRepository>() with singleton { OfferRepositoryImp(instance()) }
+        bind<OfferRepository>() with singleton { OfferRepositoryImp(instance(), instance()) }
         bind<BannerRepository>() with singleton { BannerRepositoryImp(instance()) }
         bind<ApiErrorHandler>() with singleton { ApiErrorHandler() }
         bind<GetOffersUseCase>() with singleton { GetOffersUseCase(instance(), instance()) }
         bind<GetBannersUseCase>() with singleton { GetBannersUseCase(instance(), instance()) }
         bind<OfferDao>() with singleton { instance<AppDatabase>().offerDao() }
-//        bind<MainPresenter>() with singleton { MainPresenter(instance(), instance()) }
     }
 
 }

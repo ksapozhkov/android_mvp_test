@@ -1,14 +1,18 @@
 package com.napoleontest.presentation.main.view
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.napoleontest.App
@@ -19,9 +23,11 @@ import com.napoleontest.presentation.main.OfferAdapter
 import com.napoleontest.presentation.main.OfferViewContainer
 import com.napoleontest.presentation.main.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import org.kodein.di.KodeinAware
+
 
 class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, KodeinAware {
 
@@ -30,6 +36,7 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
     }
 
     private lateinit var mOfferAdapter: OfferAdapter
+    private lateinit var mBannerFragment: BannerFragment
     override val kodein by lazy { (applicationContext as App).kodein }
 
     private val presenter by moxyPresenter { MainPresenter() }
@@ -54,7 +61,18 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
                     componentName
                 )
             )
-            setIconifiedByDefault(false)
+            setOnQueryTextListener(object :
+                SearchView.OnQueryTextListener {
+
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    hideKeyboard()
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    return false
+                }
+            })
         }
 
         iv_info.setOnClickListener {
@@ -68,15 +86,17 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
         setBntSelected(btn_top10)
 
         if (fragment_container != null) {
-            if (savedInstanceState != null) {
+            if (savedInstanceState != null)
                 return;
-            }
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.fragment_container, BannerFragment())
-            transaction.commit()
+            mBannerFragment = BannerFragment()
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container, mBannerFragment)
+                .commit()
         }
+    }
 
-//        presenter.getOffers()
+    fun View.hideKeyboard() {
+        val inputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun setBntSelected(btn: Button) {
@@ -127,8 +147,7 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
     }
 
     override fun displayBanners(banners: List<Banner>) {
-        println(banners.size)
-        TODO("Not yet implemented")
+        mBannerFragment.setData(banners)
     }
 
 }

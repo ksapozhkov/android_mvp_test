@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Banner(
     @field:PrimaryKey
     val id: String,
-    val title: String,
-    val desc: String,
+    val title: String?,
+    val desc: String?,
     val image: String
 )

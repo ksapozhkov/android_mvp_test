@@ -38,39 +38,38 @@
                 android:layout_height="87dp"/>
 
             <TextView
-                app:layout_constraintLeft_toRightOf="@id/iv_offer_image"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/tv_offer_title"
                 android:textSize="16sp"
-                android:layout_marginLeft="17dp"
+                android:layout_marginLeft="136dp"
                 android:layout_marginRight="17dp"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:singleLine="true"
                 android:layout_marginTop="1dp"
-                android:ellipsize="marquee"
+                android:ellipsize="end"
                 android:textColor="@android:color/black"
                 android:gravity="bottom"
                 android:maxWidth="120dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="33dp" />
 
             <TextView
                 android:singleLine="true"
-                app:layout_constraintLeft_toRightOf="@id/iv_offer_image"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/tv_offer_desc"
                 android:textSize="14sp"
-                android:layout_marginLeft="17dp"
-                android:lineSpacingExtra="5sp"
+                android:layout_marginLeft="136dp"
                 android:layout_marginRight="17dp"
-                android:ellipsize="marquee"
+                android:ellipsize="end"
                 android:fontFamily="sans-serif"
                 android:maxWidth="190dp"
                 android:layout_marginTop="22dp"
                 android:textColor="@color/description"
                 android:gravity="bottom"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="33dp" />
 
             <ImageView
@@ -105,7 +104,6 @@
                 android:layout_marginRight="13dp"
                 android:gravity="center"
                 android:text="99 ₽"
-                android:lineSpacingExtra="5sp"
                 android:fontFamily="sans-serif"
                 android:layout_marginTop="2dp"
                 android:textColor="@color/price"
@@ -120,7 +118,6 @@
                 android:layout_marginRight="15dp"
                 android:gravity="center"
                 android:text="109 ₽"
-                android:lineSpacingExtra="7sp"
                 android:fontFamily="sans-serif"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/price_old"

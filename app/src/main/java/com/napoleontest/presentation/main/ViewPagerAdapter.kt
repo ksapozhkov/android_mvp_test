@@ -8,14 +8,17 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.napoleontest.databinding.ItemBannerBinding
 import com.napoleontest.domain.model.Banner
+import com.napoleontest.util.Util
+import kotlin.properties.Delegates
 
-class ViewPagerAdapter(
-    var banners: ArrayList<Banner>
-) : PagerAdapter() {
-    var inflater: LayoutInflater? = null
+class ViewPagerAdapter : PagerAdapter() {
+
+    var mBannerList: List<Banner> by Delegates.observable(emptyList()) { _, _, _ ->
+        notifyDataSetChanged()
+    }
 
     override fun getCount(): Int {
-        return banners.size
+        return mBannerList.size
     }
 
     override fun isViewFromObject(
@@ -31,9 +34,13 @@ class ViewPagerAdapter(
             container,
             false
         )
-        val banner = banners[position]
+        val banner = mBannerList[position]
         binding.tvBannerTitle.text = banner.title
         binding.tvBannerDesc.text = banner.desc
+        binding.layoutInfo.visibility =
+            if ((banner.title != null && banner.title.isNotEmpty()) || (banner.desc != null && banner.desc.isNotEmpty())
+            ) View.VISIBLE else View.GONE
+        Util.displayImage(container.context, banner.image, binding.ivBannerImg)
 
         (container as ViewPager).addView(binding.root)
         return binding.root

@@ -10,9 +10,9 @@ import com.napoleontest.domain.model.Offer
 @Dao
 interface OfferDao {
     @Query("SELECT * FROM Offer")
-    fun getAll(): LiveData<List<Offer>>
+    suspend fun getAll(): List<Offer>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(offers: List<Offer>)
+    suspend fun insertAll(offers: List<Offer>)
 
 }
