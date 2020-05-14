@@ -4,7 +4,6 @@ import android.util.Log
 import com.napoleontest.domain.exception.ApiErrorHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import java.util.concurrent.CancellationException
 
@@ -12,7 +11,6 @@ abstract class UseCase<Type, in Params>(private val apiErrorHandler: ApiErrorHan
 
     abstract suspend fun run(params: Params? = null): Type
 
-    @ExperimentalCoroutinesApi
     fun invoke(
         params: Params?,
         onResult: (UseCaseResponse<Type>)?

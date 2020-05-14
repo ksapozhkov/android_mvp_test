@@ -2,7 +2,6 @@ package com.napoleontest
 
 import android.app.Application
 import androidx.room.Room
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.lifehacktestapp.android.data.db.AppDatabase
 import com.lifehacktestapp.android.data.db.OfferDao
 import com.napoleontest.data.network.BannerApi
@@ -14,6 +13,7 @@ import com.napoleontest.domain.repository.BannerRepository
 import com.napoleontest.domain.repository.OfferRepository
 import com.napoleontest.domain.usecase.GetBannersUseCase
 import com.napoleontest.domain.usecase.GetOffersUseCase
+import com.napoleontest.presentation.main.presenter.MainPresenter
 import okhttp3.OkHttpClient
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -22,6 +22,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class App : Application(), KodeinAware {
 
@@ -41,7 +42,7 @@ class App : Application(), KodeinAware {
             Retrofit.Builder()
                 .client(OkHttpClient().newBuilder().build())
                 .baseUrl(BuildConfig.BASE_URL)
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
         bind<AppDatabase>() with singleton {
@@ -56,6 +57,7 @@ class App : Application(), KodeinAware {
         bind<GetOffersUseCase>() with singleton { GetOffersUseCase(instance(), instance()) }
         bind<GetBannersUseCase>() with singleton { GetBannersUseCase(instance(), instance()) }
         bind<OfferDao>() with singleton { instance<AppDatabase>().offerDao() }
+//        bind<MainPresenter>() with singleton { MainPresenter(instance(), instance()) }
     }
 
 }

@@ -51,32 +51,36 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <Button
+                    android:layout_weight="1.2"
                     android:id="@+id/btn_top10"
-                    android:layout_width="86dp"
+                    android:layout_width="match_parent"
                     android:layout_height="31dp"
                     android:background="@drawable/filter_selector"
                     android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="11sp"
                     android:stateListAnimator="@null"
                     android:text="Топ 10"
                     android:textAllCaps="false"
+                    android:gravity="center"
                     android:textColor="@drawable/filter_text_selector"
                     android:textSize="13sp" />
 
                 <Button
+                    android:layout_weight="0.9"
                     android:id="@+id/btn_shops"
-                    android:layout_width="110dp"
+                    android:layout_width="match_parent"
                     android:layout_height="31dp"
                     android:layout_marginLeft="18dp"
                     android:background="@drawable/filter_selector"
                     android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="11sp"
+                    android:gravity="center"
                     android:stateListAnimator="@null"
                     android:text="Магазины"
                     android:textAllCaps="false"
@@ -84,13 +88,14 @@
                     android:textSize="13sp" />
 
                 <Button
+                    android:layout_weight="1"
                     android:id="@+id/btn_products"
-                    android:layout_width="93dp"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
                     android:layout_height="31dp"
                     android:layout_marginLeft="18dp"
                     android:background="@drawable/filter_selector"
                     android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="11sp"
                     android:stateListAnimator="@null"
                     android:text="Товары"
                     android:textAllCaps="false"
