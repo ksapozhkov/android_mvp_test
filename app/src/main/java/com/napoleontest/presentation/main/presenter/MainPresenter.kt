@@ -1,6 +1,8 @@
 package com.napoleontest.presentation.main.presenter
 
+import android.util.Log
 import com.napoleontest.App
+import com.napoleontest.R
 import com.napoleontest.domain.model.Banner
 import com.napoleontest.domain.model.Offer
 import com.napoleontest.domain.usecase.GetBannersUseCase
@@ -18,8 +20,11 @@ import org.kodein.di.generic.instance
 class MainPresenter : MvpPresenter<MainView>(), KodeinAware {
 
     override val kodein: Kodein by kodein(App.instance)
+    private val Tag = MainPresenter::class.java.canonicalName
     private val getOffersUserCase: GetOffersUseCase by instance<GetOffersUseCase>()
     private val getBannerUserCase: GetBannersUseCase by instance<GetBannersUseCase>()
+    private var isOfferLoading = false
+    private var isBannerLoading = false
 
     override fun onFirstViewAttach() {
         getOffers()
@@ -27,27 +32,44 @@ class MainPresenter : MvpPresenter<MainView>(), KodeinAware {
     }
 
     private fun getOffers() {
-        getOffersUserCase.invoke(null, object : UseCaseResponse<List<Offer>> {
-            override fun onSuccess(result: List<Offer>) {
-                viewState.displayOffers(result)
-            }
+        if (!isOfferLoading) {
+            setOfferLoading(true)
+            getOffersUserCase.invoke(null, object : UseCaseResponse<List<Offer>> {
+                override fun onSuccess(result: List<Offer>) {
+                    setOfferLoading(false)
+                    viewState.displayOffers(result)
+                }
 
-            override fun onError(errorModel: com.napoleontest.domain.model.Error?) {
-                println(errorModel?.message)
-            }
-        })
+                override fun onError(errorModel: com.napoleontest.domain.model.ErrorModel?) {
+                    setOfferLoading(false)
+                    Log.e(Tag, errorModel!!.getErrorMessage())
+                    viewState.showMessage(R.string.unable_to_load_offers)
+                }
+            })
+        }
     }
 
     fun getBanners() {
-        getBannerUserCase.invoke(null, object : UseCaseResponse<List<Banner>> {
-            override fun onSuccess(result: List<Banner>) {
-                viewState.displayBanners(result)
-            }
+        if (!isBannerLoading) {
+            isBannerLoading = true
+            getBannerUserCase.invoke(null, object : UseCaseResponse<List<Banner>> {
+                override fun onSuccess(result: List<Banner>) {
+                    isBannerLoading = false
+                    viewState.displayBanners(result)
+                }
 
-            override fun onError(errorModel: com.napoleontest.domain.model.Error?) {
-                println(errorModel?.message)
-            }
-        })
+                override fun onError(errorModel: com.napoleontest.domain.model.ErrorModel?) {
+                    isBannerLoading = false
+                    Log.e(Tag, errorModel!!.getErrorMessage())
+                    viewState.showMessage(R.string.unable_to_load_banners)
+                }
+            })
+        }
+    }
+
+    private fun setOfferLoading(loading: Boolean) {
+        isOfferLoading = loading
+        viewState.showLoading(loading)
     }
 
 }

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.napoleontest.databinding.HeaderItemOfferBinding
 import com.napoleontest.databinding.ItemOfferBinding
 import com.napoleontest.util.Util
-import java.util.*
 import kotlin.properties.Delegates
 
 class OfferAdapter() :
@@ -65,27 +64,21 @@ class OfferAdapter() :
                     offer.image,
                     binding.ivOfferImage
                 )
-                if (offer.isProduct()) {
-                    binding.tvOfferDiscount.visibility = View.VISIBLE
-                    binding.tvOfferDiscount.text = "-" + offer.discountInt() + "%"
-                    binding.tvOfferPrice.visibility = View.VISIBLE
-                    binding.tvOfferPrice.text = offer.getDiscountPrice().toString() + "₽"
-                    binding.tvOfferPriceOld.visibility = View.VISIBLE
-                    binding.tvOfferPriceOld.text =  offer.price.toInt().toString() + "₽"
-                    binding.tvOfferPriceOld.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG;
-                    binding.ivBasket.visibility = View.VISIBLE
-                } else {
-                    binding.tvOfferDiscount.visibility = View.GONE
-                    binding.tvOfferDiscount.text = ""
-                    binding.tvOfferPrice.visibility = View.GONE
-                    binding.tvOfferPrice.text = ""
-                    binding.tvOfferPriceOld.visibility = View.GONE
-                    binding.tvOfferPriceOld.text = ""
-                    binding.ivBasket.visibility = View.GONE
-                }
+                binding.tvOfferDiscount.visibility =
+                    if (offer.isProduct()) View.VISIBLE else View.GONE
+                binding.tvOfferDiscount.text =
+                    if (offer.isProduct()) "-" + offer.discountInt() + "%" else ""
+                binding.tvOfferPrice.visibility = if (offer.isProduct()) View.VISIBLE else View.GONE
+                binding.tvOfferPrice.text =
+                    if (offer.isProduct()) offer.getDiscountPrice().toString() + "₽" else ""
+                binding.tvOfferPriceOld.visibility =
+                    if (offer.isProduct()) View.VISIBLE else View.GONE
+                binding.tvOfferPriceOld.text =
+                    if (offer.isProduct()) offer.price.toInt().toString() + "₽" else ""
+                binding.tvOfferPriceOld.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG;
+                binding.ivBasket.visibility = if (offer.isProduct()) View.VISIBLE else View.GONE
             }
         }
-
     }
 
     class HeaderViewHolder(val binding: HeaderItemOfferBinding) :
@@ -94,7 +87,6 @@ class OfferAdapter() :
         override fun bind(container: OfferViewContainer) {
             binding.headerTextView.text = container.headerTitle
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -103,6 +95,11 @@ class OfferAdapter() :
 
     interface Bind {
         fun bind(container: OfferViewContainer)
+    }
+
+    enum class RowType {
+        HEADER,
+        ROW
     }
 
 }

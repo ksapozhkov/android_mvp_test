@@ -1,6 +1,6 @@
 package com.napoleontest.domain.exception
 
-import com.napoleontest.domain.model.Error
+import com.napoleontest.domain.model.ErrorModel
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import java.io.IOException
@@ -13,14 +13,19 @@ import java.net.SocketTimeoutException
  * */
 class ApiErrorHandler {
 
-    fun traceErrorException(throwable: Throwable?): Error {
-       /* val errorModel: Error? = when (throwable) {
+    fun traceErrorException(throwable: Throwable?): ErrorModel {
+        val errorModel: ErrorModel? = when (throwable) {
 
             // if throwable is an instance of HttpException
             // then attempt to parse error data from response body
             is HttpException -> {
+                // handle UNAUTHORIZED situation (when token expired)
                 if (throwable.code() == 401) {
-                    Error(throwable.message(), throwable.code())
+                    ErrorModel(
+                        throwable.message(),
+                        throwable.code(),
+                        ErrorModel.ErrorStatus.UNAUTHORIZED
+                    )
                 } else {
                     getHttpError(throwable.response()?.errorBody())
                 }
@@ -28,22 +33,16 @@ class ApiErrorHandler {
 
             // handle api call timeout error
             is SocketTimeoutException -> {
-                com.napoleontest.domain.model.Error(
-                    throwable.message,
-                    ErrorModel.ErrorStatus.TIMEOUT
-                )
+                ErrorModel(throwable.message, ErrorModel.ErrorStatus.TIMEOUT)
             }
 
             // handle connection error
             is IOException -> {
-                com.napoleontest.domain.model.Error(
-                    throwable.message,
-                    Error.ErrorStatus.NO_CONNECTION
-                )
+                ErrorModel(throwable.message, ErrorModel.ErrorStatus.NO_CONNECTION)
             }
             else -> null
-        }*/
-        return Error("Undefined Error", 0)
+        }
+        return errorModel ?: ErrorModel("No Defined Error!", 0, ErrorModel.ErrorStatus.BAD_RESPONSE)
     }
 
     /**
@@ -52,14 +51,14 @@ class ApiErrorHandler {
      * @param body retrofit response body
      * @return returns an instance of [ErrorModel] with parsed data or NOT_DEFINED status
      */
-    /*private fun getHttpError(body: ResponseBody?): Error {
+    private fun getHttpError(body: ResponseBody?): ErrorModel {
         return try {
             // use response body to get error detail
-            Error(body.toString(), 400, Error.ErrorStatus.BAD_RESPONSE)
+            ErrorModel(body.toString(), 400, ErrorModel.ErrorStatus.BAD_RESPONSE)
         } catch (e: Throwable) {
             e.printStackTrace()
-            Error(message = e.message, errorStatus = Error.ErrorStatus.NOT_DEFINED)
+            ErrorModel(message = e.message, errorStatus = ErrorModel.ErrorStatus.NOT_DEFINED)
         }
+    }
 
-    }*/
 }

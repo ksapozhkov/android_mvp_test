@@ -1,15 +1,13 @@
 package com.napoleontest.presentation.main.view
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -23,7 +21,6 @@ import com.napoleontest.presentation.main.OfferAdapter
 import com.napoleontest.presentation.main.OfferViewContainer
 import com.napoleontest.presentation.main.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import org.kodein.di.KodeinAware
@@ -39,7 +36,7 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
     private lateinit var mBannerFragment: BannerFragment
     override val kodein by lazy { (applicationContext as App).kodein }
 
-    private val presenter by moxyPresenter { MainPresenter() }
+    val presenter by moxyPresenter { MainPresenter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +92,8 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
     }
 
     fun View.hideKeyboard() {
-        val inputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
@@ -148,6 +146,14 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
 
     override fun displayBanners(banners: List<Banner>) {
         mBannerFragment.setData(banners)
+    }
+
+    override fun showLoading(show: Boolean) {
+        pb_offer_loading.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun showMessage(message: Int) {
+        Toast.makeText(this, getString(message), Toast.LENGTH_LONG).show()
     }
 
 }

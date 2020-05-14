@@ -9,11 +9,13 @@ import androidx.viewpager.widget.ViewPager
 import com.napoleontest.databinding.ItemBannerBinding
 import com.napoleontest.domain.model.Banner
 import com.napoleontest.util.Util
-import kotlin.properties.Delegates
 
 class ViewPagerAdapter : PagerAdapter() {
 
-    var mBannerList: List<Banner> by Delegates.observable(emptyList()) { _, _, _ ->
+    private var mBannerList = ArrayList<Banner>()
+
+    fun addItems(items: List<Banner>) {
+        mBannerList.addAll(items)
         notifyDataSetChanged()
     }
 
@@ -40,7 +42,7 @@ class ViewPagerAdapter : PagerAdapter() {
         binding.layoutInfo.visibility =
             if ((banner.title != null && banner.title.isNotEmpty()) || (banner.desc != null && banner.desc.isNotEmpty())
             ) View.VISIBLE else View.GONE
-        Util.displayImage(container.context, banner.image, binding.ivBannerImg)
+        Util.displayImage(binding.root.context, banner.image, binding.ivBannerImg)
 
         (container as ViewPager).addView(binding.root)
         return binding.root
@@ -53,5 +55,6 @@ class ViewPagerAdapter : PagerAdapter() {
     ) {
         (container as ViewPager).removeView(obj as LinearLayout)
     }
+
 
 }

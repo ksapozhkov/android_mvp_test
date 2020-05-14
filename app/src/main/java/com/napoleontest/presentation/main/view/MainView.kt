@@ -14,4 +14,10 @@ interface MainView : MvpView {
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun displayBanners(banners: List<Banner>)
 
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun showLoading(show : Boolean)
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun showMessage(message : Int)
+
 }

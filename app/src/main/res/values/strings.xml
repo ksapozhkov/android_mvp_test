@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">NapoleonTestApp</string>
     <string name="search_hint">Поиск</string>
+    <string name="unable_to_load_banners">Не удалось загрузить предложения</string>
+    <string name="unable_to_load_offers">Не удалось загрузить товары</string>
+    <string name="filter_top10">Топ 10</string>
+    <string name="filter_shops">Магазины</string>
+    <string name="filter_product">Товары</string>
 </resources>

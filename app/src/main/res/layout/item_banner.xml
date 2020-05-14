@@ -8,23 +8,21 @@
         android:gravity="center">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="17dp"
             android:layout_marginBottom="17dp"
+            app:cardPreventCornerOverlap="false"
             app:cardCornerRadius="8dp">
 
             <ImageView
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:id="@+id/iv_banner_img"
                 android:layout_width="235dp"
-                android:layout_height="156dp"
-                android:background="@color/colorAccent"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="156dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_info"
@@ -35,7 +33,7 @@
 
                 <TextView
                     android:id="@+id/tv_banner_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
                     android:layout_marginRight="20dp"
