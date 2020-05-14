@@ -6,9 +6,8 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 interface MainView : MvpView {
+
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun displayOffers(offers: List<Offer>)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
-    fun openInfo()
 }

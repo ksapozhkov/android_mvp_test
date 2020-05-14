@@ -4,27 +4,24 @@ import android.app.AlertDialog
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager.widget.ViewPager
 import com.napoleontest.App
 import com.napoleontest.R
-import com.napoleontest.domain.model.Banner
 import com.napoleontest.domain.model.Offer
 import com.napoleontest.presentation.main.OfferAdapter
 import com.napoleontest.presentation.main.RecyclerViewContainer
-import com.napoleontest.presentation.main.ViewPagerAdapter
 import com.napoleontest.presentation.main.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import moxy.MvpAppCompatActivity
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
-
 
 @ExperimentalCoroutinesApi
 class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, KodeinAware {
@@ -51,28 +48,43 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
             showModal()
         }
 
+        btn_top10.setOnClickListener { setBntSelected(btn_top10) }
+        btn_shops.setOnClickListener { setBntSelected(btn_shops) }
+        btn_products.setOnClickListener { setBntSelected(btn_products) }
 
-        val banners = ArrayList<Banner>()
-        banners.add(Banner("id1", "Title1", "Desc1", "img1"))
-        banners.add(Banner("id2", "Title2", "Desc2", "img2"))
-        banners.add(Banner("id3", "Title3", "Desc3", "img3"))
+        setBntSelected(btn_top10)
 
-        val vpAdapter = ViewPagerAdapter(banners)
-        // Binds the Adapter to the ViewPager
-        // Binds the Adapter to the ViewPager
-
-        val viewPager = findViewById<ViewPager>(R.id.viewPager);
-
-        with(viewPager) {
-            clipToPadding = false;
-            setPadding(convertDpToPixel(50, context), 0, convertDpToPixel(50, context), 0);
-            adapter = vpAdapter
+        if (fragment_container != null) {
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.fragment_container, BannerFragment())
+            transaction.commit()
         }
     }
 
-    private fun convertDpToPixel(dp: Int, context: Context) : Int {
-           return (dp * (context.resources
-                .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+    private fun setBntSelected(btn: Button) {
+        when {
+            btn_top10.id == btn.id -> {
+                btn_top10.isSelected = true
+                btn_shops.isSelected = false
+                btn_products.isSelected = false
+            }
+            btn_shops.id == btn.id -> {
+                btn_top10.isSelected = false
+                btn_shops.isSelected = true
+                btn_products.isSelected = false
+            }
+            btn_products.id == btn.id -> {
+                btn_top10.isSelected = false
+                btn_shops.isSelected = false
+                btn_products.isSelected = true
+            }
+        }
     }
 
     private fun showModal() {
@@ -88,12 +100,7 @@ class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView, Kod
         TODO("Not yet implemented")
     }
 
-    override fun openInfo() {
-        TODO("Not yet implemented")
-    }
-
     private fun setData() { // please use loop statement for your dataset, this is just a sample of how to manage very simple data.
-
         val offer1 = Offer(
             "id1",
             "Title1",
