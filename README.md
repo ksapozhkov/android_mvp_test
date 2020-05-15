@@ -8,3 +8,5 @@ Android MVP test app
 * Kodein (DI)
 * Retrofit 2
 * Coroutines
+
+![](https://sun9-59.userapi.com/c855636/v855636216/23573e/AgvdcasMXAo.jpg)
